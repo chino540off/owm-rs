@@ -1,11 +1,8 @@
-use ::*;
-use std::collections::HashMap;
-
 /// Generic URI builder that handles all URI-related stuff.
 pub struct UriBuilder<'a> {
     api_ver: &'a str,
     method: &'a str,
-    params: HashMap<&'a str, String>,
+    params: std::collections::HashMap<&'a str, String>,
 }
 
 /// Implemented by basically every query builder in the crate.
@@ -18,7 +15,7 @@ impl<'a> UriBuilder<'a> {
         UriBuilder {
             api_ver: "2.5",
             method: "",
-            params: HashMap::with_capacity(10),
+            params: std::collections::HashMap::with_capacity(10),
         }
     }
 
@@ -35,20 +32,30 @@ impl<'a> UriBuilder<'a> {
     }
 
     /// Consumes the builder and returns the corresponding URI.
-    pub fn build(&mut self) -> String {
-        let base = format!("http://api.openweathermap.org/data/{api}/{method}",
-                           api = self.api_ver,
-                           method = self.method);
-        let mut ser = url::form_urlencoded::Serializer::new(String::new());
+    pub fn build(&self) -> hyper::Uri {
+        let query = self
+            .params
+            .iter()
+            .map(|(key, value)| format!("{key}={value}", key = key, value = value))
+            .collect::<Vec<String>>()
+            .join("&");
 
-        match self.params.len() {
-            0 => base,
-            _ => {
-                for (k, v) in self.params.iter() {
-                    ser.append_pair(k, v.as_str());
-                }
-                base + "?" + ser.finish().as_str()
-            }            
-        }
+        let path = format!(
+            "/data/{api}/{method}{query}",
+            api = self.api_ver,
+            method = self.method,
+            query = if query.len() > 0 {
+                "?".to_owned() + &query
+            } else {
+                "".to_owned()
+            }
+        );
+
+        hyper::Uri::builder()
+            .scheme("http")
+            .authority("api.openweathermap.org")
+            .path_and_query(path.as_str())
+            .build()
+            .unwrap()
     }
 }

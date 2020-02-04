@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 /// Contains the result of an aggregate query.
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct WeatherAggregate {
@@ -14,12 +16,6 @@ pub struct WeatherAggregate {
 /// Contains the result of a bounding-box query.
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct WeatherBoxAggregate {
-    /// HTTP status code for the request
-    pub cod: Option<i32>,
-    /// Time elapsed server-side to handle the request
-    pub calctime: Option<f32>,
-    /// Number of items in the list
-    pub cnt: Option<i32>,
     /// List of weather info
     pub list: Option<Vec<WeatherInfo>>,
 }
@@ -119,7 +115,7 @@ pub struct Clouds {
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Rain {
     /// Rain volume for the last 3 hours
-    #[serde(rename="3h")]
+    #[serde(rename = "3h")]
     pub three_hours: Option<i32>,
 }
 
@@ -127,7 +123,7 @@ pub struct Rain {
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Snow {
     /// Snow volume for the last 3 hours
-    #[serde(rename="3h")]
+    #[serde(rename = "3h")]
     pub three_hours: Option<i32>,
 }
 
@@ -135,7 +131,7 @@ pub struct Snow {
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Sys {
     /// Internal parameter
-    #[serde(rename="type")]
+    #[serde(rename = "type")]
     pub type_: Option<i32>,
     /// Internal parameter
     pub id: Option<i32>,
