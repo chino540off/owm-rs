@@ -116,7 +116,7 @@ pub struct Clouds {
 pub struct Rain {
     /// Rain volume for the last 3 hours
     #[serde(rename = "3h")]
-    pub three_hours: Option<i32>,
+    pub three_hours: Option<f32>,
 }
 
 /// Contains snow-related information.
@@ -124,7 +124,7 @@ pub struct Rain {
 pub struct Snow {
     /// Snow volume for the last 3 hours
     #[serde(rename = "3h")]
-    pub three_hours: Option<i32>,
+    pub three_hours: Option<f32>,
 }
 
 /// Contains internal API parameters.

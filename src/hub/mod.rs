@@ -79,11 +79,8 @@ impl<'a> WeatherHub {
         &'a self,
         uri: hyper::Uri,
     ) -> Result<D> {
-        println!("coucou1 {}", uri);
         let res = self.client.get(uri).await?;
-        println!("coucou2");
         let body = hyper::body::aggregate(res).await?;
-        println!("coucou3");
 
         Ok(serde_json::from_reader(body.reader())?)
     }
