@@ -114,6 +114,9 @@ pub struct Clouds {
 /// Contains rain-related information.
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Rain {
+    /// Rain volume for the last 1 hours
+    #[serde(rename = "1h")]
+    pub one_hour: Option<f32>,
     /// Rain volume for the last 3 hours
     #[serde(rename = "3h")]
     pub three_hours: Option<f32>,
@@ -122,6 +125,9 @@ pub struct Rain {
 /// Contains snow-related information.
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct Snow {
+    /// Snow volume for the last 1 hours
+    #[serde(rename = "1h")]
+    pub one_hours: Option<f32>,
     /// Snow volume for the last 3 hours
     #[serde(rename = "3h")]
     pub three_hours: Option<f32>,
